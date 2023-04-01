@@ -1,0 +1,42 @@
+batch_size: 8
+iters: 10000
+
+
+train_dataset:
+  type: Dataset
+  dataset_root: /data/user215/SOD/SegAll/test_data
+  train_path: /data/user215/SOD/SegAll/test_data/train_list.txt
+  separator: " "
+  num_classes: 4
+  transforms:
+    - type: ResizeStepScaling
+      min_scale_factor: 0.5
+      max_scale_factor: 2.0
+      scale_step_size: 0.25
+    # - type: RandomPaddingCrop
+    #   crop_size: [1024, 512]
+    # - type: RandomHorizontalFlip
+    # - type: RandomDistort
+    #   brightness_range: 0.4
+    #   contrast_range: 0.4
+    #   saturation_range: 0.4
+    - type: Resize
+    
+    - type: Normalize
+  mode: train
+
+val_dataset:
+  type: Dataset
+  dataset_root: /data/user215/SOD/SegAll/test_data
+  val_path: /data/user215/SOD/SegAll/test_data/valid_list.txt
+  separator: " "
+  num_classes: 4
+  transforms:
+    - type: Normalize
+  mode: val
+
+
+loss:
+  types:
+    - type: CrossEntropyLoss
+  coef: [1]
