@@ -69,7 +69,7 @@ class Dataset(torch.utils.data.Dataset):
                  train_path=None,
                  val_path=None,
                  test_path=None,
-                 separator='\t',
+                 separator=' ',
                  ignore_index=255,
                  edge=False):
         self.dataset_root = dataset_root

@@ -70,10 +70,13 @@ def resize_short(im, short_size=224, interpolation=cv2.INTER_LINEAR):
         im, (resized_width, resized_height), interpolation=interpolation)
     return im
 
-
+# TODO Fixed bug
 def horizontal_flip(im):
     if len(im.shape) == 3:
-        im = im[:, ::-1, :]
+        im = im[:, ::-1, :] # ERROR：At least one stride in the given numpy array is negative, and tensors with negative strides are n
+        # ! 输入网络的 Tensor 需要是内存连续的
+        # !但是 numpy 上述变换后为了速度考虑不会改变数据内存，这就导致拿到的数据在内存中不连续，导致错误
+
     elif len(im.shape) == 2:
         im = im[:, ::-1]
     return im

@@ -1,0 +1,23 @@
+_base_: "../../_base_/graptolite.yaml"
+
+
+model:
+  type: Deeplabv3p
+  backbone:
+    type: ResNet34_vd
+    output_stride: 8
+    # TODO : pretrained: torchpretrained
+  num_classes: 2
+  backbone_indices: [0,3]
+  aspp_ratios: [1,12,24,36]
+  align_corners: False
+  pretrained: null
+
+optimizer:
+  type: SGD
+  lr: 1.e-3
+  momentum: 0.9
+  weight_decay: 4.0e-5
+
+lr_scheduler:
+  type: OneCycleLR
