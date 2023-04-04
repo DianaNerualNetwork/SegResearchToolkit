@@ -1,0 +1,26 @@
+_base_: "../../_base_/graptolite.yaml"
+
+batch_size: 8
+iters: 10000
+
+
+loss:
+  types:
+    - type: CrossEntropyLoss
+  coef: [1, 1, 1, 1, 1, 1, 1]
+
+
+optimizer:
+  type: sgd
+  lr: 1.e-4
+  momentum: 0.9
+  weight_decay: 4.0e-5
+
+lr_scheduler:
+  type: OneCycleLR
+
+
+model:
+  type: U2Net
+  num_classes: 2
+  pretrained: Null
