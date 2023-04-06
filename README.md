@@ -21,7 +21,7 @@ English | [简体中文](README_CN.md)
 <ul class="nobull">
   <li>[2023-03-29] : fire: SegAll v0.1 is released! Check more details the following
   <li>[2023-04-03] : fixed some transforms bug,and add U2Net, data prepare for optic_disc(MICCAI2021)。
- 
+ <li>[2023-04-05] : Open New branch:Medical3D Segmentation,and get scripts to prepare lung_coronavirus dataset to download from the Internet.
 </ul>
 
 ## Introduction
@@ -34,7 +34,7 @@ The supported domains are the following:
 <ul class="nobull">
   <li>RGB Segmentation
   <li>RGBD Segmentation
-  
+  <li>Medical3D Segmentation
 </ul>
 
 
@@ -70,6 +70,12 @@ The supported domains are the following:
             <li>ESANet</li>
           </ul>
         </details>
+        <details><summary><b>Medical3D Segmentation</b></summary>
+          <ul>
+            <li>
+            <a  href="./doc/models/U2Net/README.md">VNet</a>
+            </li>
+          </ul>
       </td>
       <td>
         <details><summary><b>Backbones</b></summary>
@@ -147,10 +153,19 @@ The supported domains are the following:
 
 <details open>
 <summary>Supported architecture and swallow dates whole </summary>
+<details> <summary>RGB Segmentation </summary>
 
 - [x] [DeepLabv3p](./doc/models/DeepLabV3p/README.md)
 - [x] [U2Net](./doc/models/U2Net/README.md)
 </details>
+<details> <summary>Meidical3D Segmentation </summary>
+
+- [x] [VNet](./doc/models/DeepLabV3p/README.md)
+</details>
+</details>
+
+
+
 
 ## How to set params on yaml or yml
 Please read carefully on this.
@@ -161,6 +176,7 @@ You Can Choose the following benckmark:(Please Click them to read how to prepare
 <summary>Supported download benckmark from website </summary>
 
 - [x] [MICCAI2021 DISC SEG](Benckmark_data_prepare/RGB/MICCAI2021/README.md)
+- [x] [Medical3D- Lung-S](Benckmark_data_prepare/Meidical3D/lung.md)
 - [x] RGBD- SUNRGB-D
 - [x] RGBD- NYUv2
 - [x] CitySpace

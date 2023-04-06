@@ -1,3 +1,5 @@
+mode: RGBSeg
+
 batch_size: 8
 iters: 10000
 

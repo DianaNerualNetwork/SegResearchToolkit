@@ -69,6 +69,10 @@ class Config(object):
         return self.dic.get('to_static_training', False)
 
     @property
+    def mode(self):
+        return self.dic.get('mode')
+
+    @property
     def model_cfg(self) -> Dict:
         return self.dic.get('model', {}).copy()
 

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import os
-
+import numpy as np
 from .dataset import Dataset
 from segall.utils.download import download_file_and_uncompress
 from segall.utils import seg_env
@@ -34,7 +34,7 @@ class OpticDiscSeg(Dataset):
         mode (str, optional): Which part of dataset to use. it is one of ('train', 'val', 'test'). Default: 'train'.
         edge (bool, optional): Whether to compute edge while training. Default: False
     """
-    NUM_CLASSES = 3
+    NUM_CLASSES = 2
     IMG_CHANNELS=3
     IGNORE_INDEX=-100
     def __init__(self,
@@ -42,7 +42,8 @@ class OpticDiscSeg(Dataset):
                  #IMG_CHANNELS=3,
                  transforms=None,
                  mode='train',
-                 edge=False):
+                 edge=False,
+                 binary_label_max_index=1):
         self.dataset_root = dataset_root
         self.transforms = Compose(transforms)
         mode = mode.lower()
@@ -51,6 +52,7 @@ class OpticDiscSeg(Dataset):
         self.num_classes = self.NUM_CLASSES
         self.ignore_index = self.IGNORE_INDEX
         self.edge = edge
+        self.binary_label_max_index=binary_label_max_index
         #self.IMG_CHANNELS=IMG_CHANNELS
         if mode not in ['train', 'val', 'test']:
             raise ValueError(
@@ -96,3 +98,28 @@ class OpticDiscSeg(Dataset):
                     image_path = os.path.join(self.dataset_root, items[0])
                     grt_path = os.path.join(self.dataset_root, items[1])
                 self.file_list.append([image_path, grt_path])
+
+    def __getitem__(self, idx):
+        data = {}
+        data['trans_info'] = []
+        image_path, label_path = self.file_list[idx]
+        data['img'] = image_path
+        data['label'] = label_path
+        # If key in gt_fields, the data[key] have transforms synchronous.
+        data['gt_fields'] = []
+        if self.mode == 'val':
+            
+            data = self.transforms(data)
+            data['label'] = data['label'][np.newaxis, :, :]
+            
+            if self.binary_label_max_index!=1 and self.num_classes==2:
+                data['label'] = data['label']/self.binary_label_max_index
+
+        else:
+            data['gt_fields'].append('label')
+            data = self.transforms(data)
+            
+            if self.binary_label_max_index!=1 and self.num_classes==2:
+                data['label'] = data['label']/self.binary_label_max_index
+            
+        return data

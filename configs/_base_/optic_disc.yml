@@ -1,8 +1,8 @@
+mode: RGBSeg
 
 train_dataset:
   type: OpticDiscSeg
-  dataset_root: /data/user215/SOD/SegAll/data/optic_disc_seg
-  
+  dataset_root: data/optic_disc_seg
   transforms:
     - type: Resize
       target_size: [512, 512]
@@ -11,7 +11,7 @@ train_dataset:
 
 val_dataset:
   type: OpticDiscSeg
-  dataset_root: /data/user215/SOD/SegAll/data/optic_disc_seg
+  dataset_root: data/optic_disc_seg
   transforms:
     - type: Normalize
   mode: val
