@@ -10,16 +10,19 @@
 
 **A High-Efficient Research Development Toolkit for Image Segmentation Based on Pytorch.**
 
+
+⚡[**HowTo**](#-HOWTOs) **|** 🔧[**Installation**](doc/INSTALL.md) **|** 💻[**Training Commands**](doc/trainingcommand.md) **|** 🐢[**DatasetPrepare**](docs/DatasetPreparation.md) **|** 🏰[**Model Zoo**](doc/modelZoo/ModelZoo.md)
+
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](LICENSE)
 ![python version](https://img.shields.io/badge/python-3.6+-orange.svg)
 ![support os](https://img.shields.io/badge/os-linux%2C%20win%2C%20mac-yellow.svg)
-
 </div>
 
 
 
 
-## 🚩 New Features/Updates
+## 📢 New Features/Updates
 
 
   - ✅[2023-03-29] : fire: SegAll v0.1 is released! Check more details the following
@@ -175,8 +178,8 @@ You Can Choose the following benckmark:(Please Click them to read how to prepare
 <details open>
 <summary>Supported download benckmark from website </summary>
 
-- [x] [MICCAI2021 DISC SEG](Benckmark_data_prepare/RGB/MICCAI2021/README.md)
-- [x] [Medical3D- Lung-S](Benckmark_data_prepare/Meidical3D/lung.md)
+- ✅ [MICCAI2021 DISC SEG](Benckmark_data_prepare/RGB/MICCAI2021/README.md)
+- ✅ [Medical3D- Lung-S](Benckmark_data_prepare/Meidical3D/lung.md)
 - [x] RGBD- SUNRGB-D
 - [x] RGBD- NYUv2
 - [x] CitySpace
@@ -185,62 +188,7 @@ You Can Choose the following benckmark:(Please Click them to read how to prepare
 </details>
 
 
-## ⚡  Enviroment install
-You Need to confirm the version of pytorch must >=1.6.0
 
-## ⚡  run training , validate , predict args
-
-In train.py
-```bash
-
-        "--config" , [Required] must give yml
-
-        '--iters', [Not Required] 
-
-        '--batch_size', [Not Required]
-
-        '--learning_rate', [Not Required]
-
-        '--resume_model', [Not Required]
-
-        '--save_dir', [Not Required] 
-
-        '--do_eval', [Not Required]  if you want to evaluate  --do_eval
-
-        '--use_vdl', [Not Required]  if you want to viz --use_dl
-
-
-        '--seed', [Not Required] 
-
-
-        '--log_iters', [Not Required] 
-        
-        '--num_workers', [Not Required]
-       
-
-        '--opts', [Not Required]
-
-        '--keep_checkpoint_max', [Not Required] default:5  how many iter result to save
-
-        '--save_interval', [Not Required] default:1000
-      
-
-```
-When you want to run train.py,example:
-```bash
-python train.py --config xxxx.yml --do_eval --use_vdl
-```
-It means that run the yml to train and do evaluate and logger in tensorboard
-
-In val.py
-```bash
-python val.py --config xxx.yaml --model_path xxx/output/best_model/ckpt_iters_best_model.pth 
-```
-
-In predict.py
-```bash
-python predict.py  --config xxx.yaml --model_path /xxx/ckpt_iters_best_model.pth --image_path  /xxx/JPEGImages/P0193.jpg
-```
 
 
 ## 📜 License and Acknowledgement
