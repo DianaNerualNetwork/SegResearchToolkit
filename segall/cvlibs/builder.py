@@ -119,7 +119,7 @@ class SegBuilder(Builder):
             'No model specified in the configuration file.'
         # !Config文件里不需要有model
 
-        if self.config.train_dataset_cfg['type'] != 'Dataset':
+        if self.config.train_dataset_cfg['type'] != 'Dataset' and self.config.mode=="RGBSeg":
             # check and synchronize the num_classes in model config and dataset class
             assert hasattr(self.train_dataset_class, 'NUM_CLASSES'), \
                 'If train_dataset class is not `Dataset`, it must have `NUM_CLASSES` attr.'
@@ -256,7 +256,7 @@ class SegBuilder(Builder):
                     'train_dataset ignore_index = {}'.format(loss_cfg['ignore_index'], ignore_index)
 
         # check and synchronize the ignore_index in model config and dataset class
-        if self.config.train_dataset_cfg['type'] != 'Dataset':
+        if self.config.train_dataset_cfg['type'] != 'Dataset' and self.config.mode=="RGBSeg":
             assert hasattr(self.train_dataset_class, 'IGNORE_INDEX'), \
                 'If train_dataset class is not `Dataset`, it must have `IGNORE_INDEX` attr.'
             ignore_index = getattr(self.train_dataset_class, 'IGNORE_INDEX')

@@ -19,8 +19,9 @@ English | [简体中文](README_CN.md)
 ## News <img src="./doc/images/seg_news_icon.png" width="40"/>
 
 <ul class="nobull">
-  <li>[2023-03-29] : fire: SegAll v0.1 is released! Check more details in
- 
+  <li>[2023-03-29] : fire: SegAll v0.1 is released! Check more details the following
+  <li>[2023-04-03] : fixed some transforms bug,and add U2Net, data prepare for optic_disc(MICCAI2021)。
+ <li>[2023-04-05] : Open New branch:Medical3D Segmentation,and get scripts to prepare lung_coronavirus dataset to download from the Internet.
 </ul>
 
 ## Introduction
@@ -33,7 +34,7 @@ The supported domains are the following:
 <ul class="nobull">
   <li>RGB Segmentation
   <li>RGBD Segmentation
-  
+  <li>Medical3D Segmentation
 </ul>
 
 
@@ -59,6 +60,9 @@ The supported domains are the following:
           <li>
               <a  href="./doc/models/DeepLabV3p/README.md">DeepLabV3</a>
             </li>
+            <li>
+              <a  href="./doc/models/U2Net/README.md">U2Net</a>
+            </li>
           </ul>
         </details>
         <details><summary><b>RGBD Segmentation</b></summary>
@@ -66,6 +70,12 @@ The supported domains are the following:
             <li>ESANet</li>
           </ul>
         </details>
+        <details><summary><b>Medical3D Segmentation</b></summary>
+          <ul>
+            <li>
+            <a  href="./doc/models/U2Net/README.md">VNet</a>
+            </li>
+          </ul>
       </td>
       <td>
         <details><summary><b>Backbones</b></summary>
@@ -92,20 +102,7 @@ The supported domains are the following:
         <details><summary><b>Datasets</b></summary>
           <details><summary><b>RGB Datasets</b></summary>
           <ul>
-            <li><a href="./paddleseg/datasets/ade.py">ADE20K</a></li>  
-            <li><a href="./paddleseg/datasets/cityscapes.py">Cityscapes</a></li>
-            <li><a href="./paddleseg/datasets/cocostuff.py">COCO Stuff</a></li>
-            <li><a href="./paddleseg/datasets/voc.py">Pascal VOC</a></li>
-            <li><a href="./paddleseg/datasets/eg1800.py">EG1800</a></li>
-            <li><a href="./paddleseg/datasets/pascal_context.py">Pascal Context</a></li>  
-            <li><a href="./paddleseg/datasets/supervisely.py">SUPERVISELY</a></li>
             <li><a href="./paddleseg/datasets/optic_disc_seg.py">OPTIC DISC SEG</a></li>
-            <li><a href="./paddleseg/datasets/chase_db1.py">CHASE_DB1</a></li>
-            <li><a href="./paddleseg/datasets/hrf.py">HRF</a></li>
-            <li><a href="./paddleseg/datasets/drive.py">DRIVE</a></li>
-            <li><a href="./paddleseg/datasets/stare.py">STARE</a></li>
-            <li><a href="./paddleseg/datasets/pp_humanseg14k.py">PP-HumanSeg14K</a></li>
-            <li><a href="./paddleseg/datasets/pssl.py">PSSL</a></li>
           </ul>
           </details>
           <details><summary><b>RGBD Datasets</b></summary>
@@ -156,17 +153,94 @@ The supported domains are the following:
 
 <details open>
 <summary>Supported architecture and swallow dates whole </summary>
+<details> <summary>RGB Segmentation </summary>
 
 - [x] [DeepLabv3p](./doc/models/DeepLabV3p/README.md)
+- [x] [U2Net](./doc/models/U2Net/README.md)
 </details>
+<details> <summary>Meidical3D Segmentation </summary>
+
+- [x] [VNet](./doc/models/DeepLabV3p/README.md)
+</details>
+</details>
+
+
+
 
 ## How to set params on yaml or yml
 Please read carefully on this.
 
+## Data PrePare
+You Can Choose the following benckmark:(Please Click them to read how to prepare it)
+<details open>
+<summary>Supported download benckmark from website </summary>
+
+- [x] [MICCAI2021 DISC SEG](Benckmark_data_prepare/RGB/MICCAI2021/README.md)
+- [x] [Medical3D- Lung-S](Benckmark_data_prepare/Meidical3D/lung.md)
+- [x] RGBD- SUNRGB-D
+- [x] RGBD- NYUv2
+- [x] CitySpace
+
+
+</details>
 
 
 ## PyTorch Version on this 
 You Need to confirm the version of pytorch must >=1.6.0
+
+## run training , validate , predict args
+
+In train.py
+```bash
+
+        "--config" , [Required] must give yml
+
+        '--iters', [Not Required] 
+
+        '--batch_size', [Not Required]
+
+        '--learning_rate', [Not Required]
+
+        '--resume_model', [Not Required]
+
+        '--save_dir', [Not Required] 
+
+        '--do_eval', [Not Required]  if you want to evaluate  --do_eval
+
+        '--use_vdl', [Not Required]  if you want to viz --use_dl
+
+
+        '--seed', [Not Required] 
+
+
+        '--log_iters', [Not Required] 
+        
+        '--num_workers', [Not Required]
+       
+
+        '--opts', [Not Required]
+
+        '--keep_checkpoint_max', [Not Required] default:5  how many iter result to save
+
+        '--save_interval', [Not Required] default:1000
+      
+
+```
+When you want to run train.py,example:
+```bash
+python train.py --config xxxx.yml --do_eval --use_vdl
+```
+It means that run the yml to train and do evaluate and logger in tensorboard
+
+In val.py
+```bash
+python val.py --config xxx.yaml --model_path xxx/output/best_model/ckpt_iters_best_model.pth 
+```
+
+In predict.py
+```bash
+python predict.py  --config xxx.yaml --model_path /xxx/ckpt_iters_best_model.pth --image_path  /xxx/JPEGImages/P0193.jpg
+```
 
 ## TODO:
 <li>Medical 3D Segmentation
@@ -175,7 +249,7 @@ You Need to confirm the version of pytorch must >=1.6.0
 <li> Training 
   <li> use_ema model
   <li> resume model training
-<li>LRShecudler yaml
+
 
 
 ## Citation

@@ -11,6 +11,7 @@ def reverse_transform(pred, trans_info, mode='nearest',device=torch.device('cpu'
     """recover pred to origin shape"""
     intTypeList = [torch.int8, torch.int16, torch.int32, torch.int64]
     dtype = pred.dtype
+    
     for item in trans_info[::-1]:
         if isinstance(item[0], list):
             trans_mode = item[0][0]

@@ -1,0 +1,27 @@
+_base_: "../../_base_/optic_disc.yml"
+
+batch_size: 2
+iters: 2000
+
+
+
+
+optimizer:
+  type: sgd
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 4.0e-5
+
+lr_scheduler:
+  type: OneCycleLR
+
+
+model:
+  type: U2Net
+  num_classes: 2
+  pretrained: Null
+
+loss:
+  types:
+    - type: CrossEntropyLoss
+  coef: [1, 1, 1, 1, 1, 1, 1]

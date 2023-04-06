@@ -69,9 +69,10 @@ class Dataset(torch.utils.data.Dataset):
                  train_path=None,
                  val_path=None,
                  test_path=None,
-                 separator='\t',
+                 separator=' ',
                  ignore_index=255,
-                 edge=False):
+                 edge=False,
+                 binary_label_max_index=1):
         self.dataset_root = dataset_root
         self.transforms = Compose(transforms, img_channels=img_channels)
         self.file_list = list()
@@ -80,7 +81,7 @@ class Dataset(torch.utils.data.Dataset):
         self.img_channels = img_channels
         self.ignore_index = ignore_index
         self.edge = edge
-
+        self.binary_label_max_index=binary_label_max_index
         if self.mode not in ['train', 'val', 'test']:
             raise ValueError(
                 "mode should be 'train', 'val' or 'test', but got {}.".format(
@@ -153,12 +154,19 @@ class Dataset(torch.utils.data.Dataset):
         # If key in gt_fields, the data[key] have transforms synchronous.
         data['gt_fields'] = []
         if self.mode == 'val':
+            
             data = self.transforms(data)
             data['label'] = data['label'][np.newaxis, :, :]
+            if self.binary_label_max_index!=1 and self.num_classes==2:
+                data['label'] = data['label']/self.binary_label_max_index
+                
+            
 
         else:
             data['gt_fields'].append('label')
             data = self.transforms(data)
+            if self.binary_label_max_index!=1 and self.num_classes==2:
+                data['label'] = data['label']/self.binary_label_max_index
             if self.edge:
                 edge_mask = F.mask_to_binary_edge(
                     data['label'], radius=2, num_classes=self.num_classes)
