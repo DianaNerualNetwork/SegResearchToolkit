@@ -36,7 +36,7 @@ SegAll is an end-to-end high-efficent research development toolkit for image seg
 
 **Note: This Toolkit many codes based on or inspired by [PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg) Toolkit.Thanks to their wonderful and elegant work!**
 
-The supported domains are the following:
+📕 The supported domains are the following:
 
 - ✅RGB Segmentation
 - ✅RGBD Segmentation
@@ -180,9 +180,9 @@ You Can Choose the following benckmark:(Please Click them to read how to prepare
 
 - ✅ [MICCAI2021 DISC SEG](Benckmark_data_prepare/RGB/MICCAI2021/README.md)
 - ✅ [Medical3D- Lung-S](Benckmark_data_prepare/Meidical3D/lung.md)
-- [x] RGBD- SUNRGB-D
-- [x] RGBD- NYUv2
-- [x] CitySpace
+- ⏳ RGBD- SUNRGB-D
+- ⏳ RGBD- NYUv2
+- ⏳ CitySpace
 
 
 </details>
@@ -230,7 +230,7 @@ The following is a BibTeX reference. The BibTeX entry requires the `url` LaTeX p
 }
 ```
 
-# Introduction to  MixLab
+# 🚀 Introduction to  MixLab
 Our research group focus on intelligent computational methods and clinical application research on multi-modal tumor imaging such as computed tomography(CT), magnetic resonance imaging(MRI), Ultrasound(US), Endoscopy and Pathology. Since malignant tumor is a complex and heterogeneous disease, as well as the physical, chemical, and biological characteristics of different imaging technique, a single imaging method has its limitations in resolution, sensitivity, and contrast for tumor imaging. To leverage the information of cross-modality imaging, we develop learning-based computational methods to capture micro-level tumor characteristics by computing imaging and automatically segment tumor/OARs and extract information from radiology images and digital pathology for diagnosis, treatment planning, intraoperative navigation, and prognosis prediction.
 
 The Qin Group focuses on cutting‐edge research in the interdisciplinary of computer science, medical physics, and biomedical science, developing and applying computational methods to biomedical optical imaging and multi-modality of medical data analysis for precision tumor diagnosis and therapy. The lab develops novel methods in computing optical imaging, image computing and analysis, computing visualization, and AI, including computing reconstruction, unsupervised generative network, multi-modal fusion, and multi-task learning, weak supervision, mixed reality, and decision theory to tackle the challenges of leveraging multi-modal medical data. Our exciting work is bridging the field of biomedical engineering domains with multidisciplinary collaborations with top scientists at the Chinese Academy of Sciences as well as with other institutions internationally.
