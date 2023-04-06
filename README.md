@@ -25,7 +25,7 @@
 ## 📢 New Features/Updates
 
 
-  - ✅[2023-03-29] : fire: SegAll v0.1 is released! Check more details the following
+  - ✅[2023-03-29] : fire: SegAll v0.1 is released! 
   - ✅[2023-04-03] : fixed some transforms bug,and add U2Net, data prepare for optic_disc(MICCAI2021)。
  - ✅[2023-04-05] : Open New branch:Medical3D Segmentation,and get scripts to prepare lung_coronavirus dataset to download from the Internet.
 
