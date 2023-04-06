@@ -16,31 +16,35 @@ English | [简体中文](README_CN.md)
 
 </div>
 
-## News <img src="./doc/images/seg_news_icon.png" width="40"/>
+ **New Features/Updates**
 
-<ul class="nobull">
-  <li>[2023-03-29] : fire: SegAll v0.1 is released! Check more details the following
-  <li>[2023-04-03] : fixed some transforms bug,and add U2Net, data prepare for optic_disc(MICCAI2021)。
- <li>[2023-04-05] : Open New branch:Medical3D Segmentation,and get scripts to prepare lung_coronavirus dataset to download from the Internet.
-</ul>
 
-## Introduction
+
+## 🚩 New Features/Updates
+
+
+  - ✅[2023-03-29] : fire: SegAll v0.1 is released! Check more details the following
+  - ✅[2023-04-03] : fixed some transforms bug,and add U2Net, data prepare for optic_disc(MICCAI2021)。
+ - ✅[2023-04-05] : Open New branch:Medical3D Segmentation,and get scripts to prepare lung_coronavirus dataset to download from the Internet.
+
+
+## ✨  Introduction
 
 SegAll is an end-to-end high-efficent research development toolkit for image segmentation based on Pytorch, which  helps both developers and researchers in the whole process of designing segmentation models, training models, optimizing performance and inference speed, and deploying models. A lot of well-trained models and various real-world applications in both industry and academia help users conveniently build hands-on experiences in image segmentation.
 
 **Note: This Toolkit many codes based on or inspired by [PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg) Toolkit.Thanks to their wonderful and elegant work!**
 
 The supported domains are the following:
-<ul class="nobull">
-  <li>RGB Segmentation
-  <li>RGBD Segmentation
-  <li>Medical3D Segmentation
-</ul>
+
+- ✅RGB Segmentation
+- ✅RGBD Segmentation
+- ✅Medical3D Segmentation
 
 
 
 
-## Overview to SegAll
+
+## ✨  Overview to SegAll
 
 <table align="center">
   <tbody>
@@ -148,29 +152,26 @@ The supported domains are the following:
 <details open>
 <summary>Supported backbones and swallow dates whole </summary>
 
-- [x] [ResNet](./doc/models/backbone/ResNet/README.md)
+- ✅ [ResNet](./doc/models/backbone/ResNet/README.md)
 </details>
 
 <details open>
 <summary>Supported architecture and swallow dates whole </summary>
 <details> <summary>RGB Segmentation </summary>
 
-- [x] [DeepLabv3p](./doc/models/DeepLabV3p/README.md)
-- [x] [U2Net](./doc/models/U2Net/README.md)
+- ✅ [DeepLabv3p](./doc/models/DeepLabV3p/README.md)
+- ✅ [U2Net](./doc/models/U2Net/README.md)
 </details>
 <details> <summary>Meidical3D Segmentation </summary>
 
-- [x] [VNet](./doc/models/DeepLabV3p/README.md)
+- ✅ [VNet](./doc/models/DeepLabV3p/README.md)
 </details>
 </details>
 
 
 
 
-## How to set params on yaml or yml
-Please read carefully on this.
-
-## Data PrePare
+## ⚡  Data PrePare
 You Can Choose the following benckmark:(Please Click them to read how to prepare it)
 <details open>
 <summary>Supported download benckmark from website </summary>
@@ -185,10 +186,10 @@ You Can Choose the following benckmark:(Please Click them to read how to prepare
 </details>
 
 
-## PyTorch Version on this 
+## ⚡  Enviroment install
 You Need to confirm the version of pytorch must >=1.6.0
 
-## run training , validate , predict args
+## ⚡  run training , validate , predict args
 
 In train.py
 ```bash
@@ -242,22 +243,29 @@ In predict.py
 python predict.py  --config xxx.yaml --model_path /xxx/ckpt_iters_best_model.pth --image_path  /xxx/JPEGImages/P0193.jpg
 ```
 
-## TODO:
-<li>Medical 3D Segmentation
-<li>Text-Image Segentation
-<li>Domain Adaptive
-<li> Training 
-  <li> use_ema model
-  <li> resume model training
+
+## 📜 License and Acknowledgement
+
+This project is released under the [Apache 2.0 license](LICENSE.txt).<br>
+More details about **license** and **acknowledgement** are in [LICENSE](LICENSE/README.md).
+
+## 🌏 Citations
+
+If SegAll helps your research or work, please cite SegAll.<br>
 
 
-
-## Citation
 author: BairdXiong,Graduated from [WuhanUniversity of Techonolgy](http://www.whut.edu.cn/) 2023 . Studying for a master's degree in electronic information at [SIAT](https://www.siat.ac.cn/)(Shenzhen Institute of Advanced Technology，Chinese Academy of Sciences) Now.
 
-codes from: [PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg) and transfrom it to Pytorch for doing resarch  and learning  on segmentation.
 
+The following is a BibTeX reference. The BibTeX entry requires the `url` LaTeX package.
 ```bash
+@misc{Segall,
+  author =       {BingXiong},
+  title =        {{SegAll}: A High-Efficient Research Development Toolkit for Image Segmentation Based on Pytorch.},
+  howpublished = {\url{https://github.com/DianaNerualNetwork/SegAll}},
+  year =         {2023}
+}
+
 @misc{liu2021paddleseg,
       title={PaddleSeg: A High-Efficient Development Toolkit for Image Segmentation},
       author={Yi Liu and Lutao Chu and Guowei Chen and Zewu Wu and Zeyu Chen and Baohua Lai and Yuying Hao},
