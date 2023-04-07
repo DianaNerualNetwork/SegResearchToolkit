@@ -81,6 +81,9 @@ SegAll is an end-to-end high-efficent research development toolkit for image seg
             <li>
             <a  href="./doc/models/U2Net/README.md">VNet</a>
             </li>
+            <li>
+            <a  href="./doc/models/PANet_PriorAttention/README.md">PANet</a>
+            </li>
           </ul>
       </td>
       <td>
@@ -167,10 +170,30 @@ SegAll is an end-to-end high-efficent research development toolkit for image seg
 <details> <summary>Meidical3D Segmentation </summary>
 
 - ✅ [VNet](./doc/models/DeepLabV3p/README.md)
+- [x] [PANet](./doc/models/PANet_PriorAttention/README.md)
 </details>
 </details>
 
 
+
+## <img src="https://user-images.githubusercontent.com/34859558/190046287-31b0467c-1a7e-4bf2-9e5e-40ff3eed94ee.png" width="25"/> Structure
+This part shows you the whole picture of our repository, which is easy to expand with different model and datasets. Our file tree is as follows:
+
+```bash
+├── Benckmark_data_prepare  # All benckmark data prepare(SUNRGB-D,CitySpace,BrasTs..) stays here.
+├── configs         # All configuration stays here.
+├── data            # Data stays here.
+├── segall  
+│   ├── core        # the core training, val and test file.
+│   ├── datasets  
+│   ├── models  
+│   ├── transforms  # the online data transforms
+│   └── utils       # all kinds of utility files
+├── export.py
+├── tools           # Data preprocess including fetch data, process it and split into training and validation set
+├── train.py
+└── val.py
+```
 
 
 ## ⚡  Data PrePare

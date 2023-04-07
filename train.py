@@ -165,9 +165,9 @@ def main(args):
         #use_ema=args.use_ema,# TODO
         losses=loss,
         keep_checkpoint_max=args.keep_checkpoint_max, ## TODO
-        #device=device,
-          profiler_options=None,
-          to_static_training=False,
+        device=device,
+        #   profiler_options=None, # TODO
+        #   to_static_training=False, # TODO
           sw_num=None,
           is_save_data=True,
           has_dataset_json=True
