@@ -844,7 +844,7 @@ class MirrorTransform:
 
 
 @manager.TRANSFORMS.add_component
-class ResizeRangeScaling:
+class ResizeRangeScaling_Medical:
     """
     Resize the long side of an image into a range, and then scale the other side proportionally.
 
@@ -880,7 +880,7 @@ class ResizeRangeScaling:
 
 
 @manager.TRANSFORMS.add_component
-class RandomPaddingCrop:
+class RandomPaddingCrop_Medical:
     """
     Crop a sub-image from a raw image and annotation image randomly. If the target cropping size
     is larger than original image, then the bottom-right padding will be added.

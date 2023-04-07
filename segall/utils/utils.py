@@ -94,16 +94,36 @@ def download_pretrained_model(pretrained_model):
             pretrained_model = os.path.join(pretrained_model, filename)
     return pretrained_model
 
-def save_ckpt(ckpt_dir, model, optimizer, iters):
+def save_ckpt(ckpt_dir, model, optimizer,scheduler ,iters,cur_iou,best_iou):
     state = {
         'iters': iters,
+        'cur_iou': cur_iou,
+        'best_iou': best_iou,
         'state_dict': model.state_dict(),
         'optimizer': optimizer.state_dict(),
+        'scheduler': scheduler.state_dict()
     }
     ckpt_model_filename = "ckpt_iters_{}.pth".format(iters)
     path = os.path.join(ckpt_dir, ckpt_model_filename)
     torch.save(state, path)
     print('{:>2} has been successfully saved'.format(path))
+
+def resume(resume_model,model,optimizer,scheduler):
+    if os.path.isfile(resume_model):
+            logger.info("=> loading checkpoint '{}'".format(resume_model))
+            checkpoint = torch.load(
+                resume_model)
+            iters = checkpoint['iters']
+            best_IoU = checkpoint["best_iou"]
+            model.load_state_dict(checkpoint['state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            scheduler.load_state_dict(checkpoint['scheduler'])
+            logger.info("=> loaded checkpoint '{}' (iter_{})".format(
+                resume_model, checkpoint['iters']))
+    else:
+        raise ValueError(
+                "=> resume failed! no checkpoint found at '{}'. Please check args.resume again!"
+                .format(resume_model))
 
 def load_entire_model(model, pretrained):
     if pretrained is not None:

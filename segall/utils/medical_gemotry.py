@@ -18,8 +18,8 @@ from skimage.transform import resize
 sys.path.append(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), "../.."))
 import torch
-gpu_tag=torch.cuda.is_available()
-# gpu_tag=t
+# gpu_tag=torch.cuda.is_available()
+gpu_tag=False
 if gpu_tag:
     import cupy as np
     import cupyx.scipy as scipy

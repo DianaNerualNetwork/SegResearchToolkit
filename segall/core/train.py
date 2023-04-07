@@ -8,7 +8,7 @@ import numpy as np
 import torch 
 import torch.nn.functional as F 
 
-from segall.utils import TimeAverager,calculate_eta,load_ckpt,logger,worker_init_fn,save_ckpt
+from segall.utils import TimeAverager,calculate_eta,load_ckpt,logger,worker_init_fn,save_ckpt,resume
 from segall.core.val import evaluate_3d,evaluate
 
 from segall.models.losses import loss_3d_computation,flatten,loss_computation
@@ -53,7 +53,7 @@ def train(model,
     
 
     if resume_model is not None:
-        pass # TODO: Rusemue model training
+        resume(resume_model,model,optimizer,lr_she)
 
     if not os.path.isdir(save_dir):
         if os.path.exists(save_dir):
@@ -194,7 +194,7 @@ def train(model,
                                                     "iter_{}".format(iter_))
                 if not os.path.isdir(current_save_dir):
                     os.makedirs(current_save_dir)
-                save_ckpt(current_save_dir,model,optimizer,iter_) # save checkpoint for resume 
+                save_ckpt(current_save_dir,model,optimizer,lr_she,iter_,mean_iou,best_mean_iou) # save checkpoint for resume 
                 save_models.append(current_save_dir)
                 if len(save_models)>keep_checkpoint_max>0:
                     # 
@@ -207,7 +207,7 @@ def train(model,
                         best_model_dir = os.path.join(save_dir, "best_model")
                         if not(( os.path.isdir(best_model_dir)) and (os.path.exists(best_model_dir))):
                             os.mkdir(best_model_dir) # if path isnt a dir or exist 
-                        save_ckpt(best_model_dir,model,optimizer,"best_model")
+                        save_ckpt(best_model_dir,model,optimizer,lr_she,"best_model",mean_iou,best_mean_iou)
                         
                     logger.info(
                         '[EVAL] The model with the best validation mIoU ({:.4f}) was saved at iter {}.'
