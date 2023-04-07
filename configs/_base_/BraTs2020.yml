@@ -1,0 +1,29 @@
+mode: Medical3DSeg
+
+batch_size: 1
+iters: 15000
+
+train_dataset:
+  type: LungCoronavirus
+  dataset_root: data/lung_coronavirus/lung_coronavirus_phase0
+  result_dir: data/lung_coronavirus/lung_coronavirus_phase1
+  transforms:
+    - type: RandomResizedCrop3D
+      size: 64
+      scale: [0.8, 1.2]
+    - type: RandomRotation3D
+      degrees: 90
+    # - type: RandomFlip3D # TODO bug here
+    - type: Resize3D
+      size: 64
+  mode: train
+  num_classes: 4
+
+val_dataset:
+  type: LungCoronavirus
+  dataset_root: data/lung_coronavirus/lung_coronavirus_phase0
+  result_dir: data/lung_coronavirus/lung_coronavirus_phase1
+  num_classes: 4
+  transforms: []
+  mode: val
+  dataset_json_path: "data/lung_coronavirus/lung_coronavirus_raw/dataset.json"
