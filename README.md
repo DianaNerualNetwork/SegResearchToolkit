@@ -34,14 +34,6 @@
 
 SegResearchToolkit is an end-to-end high-efficent research development toolkit for image segmentation based on Pytorch, which  helps both developers and researchers in the whole process of designing segmentation models, training models, optimizing performance and inference speed, and deploying models. A lot of well-trained models and various real-world applications in both industry and academia help users conveniently build hands-on experiences in image segmentation.
 
-**Note: This Toolkit many codes based on or inspired by [PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg) Toolkit.Thanks to their wonderful and elegant work!**
-
-📕 The supported domains are the following:
-
-- ✅RGB Segmentation
-- ✅RGBD Segmentation
-- ✅Medical3D Segmentation
-
 
 
 
@@ -229,7 +221,7 @@ More details about **license** and **acknowledgement** are in [LICENSE](LICENSE/
 ## 🌏 Citations
 
 If SegResearchToolkit helps your research or work, please cite SegAll.<br>
-
+**Note: This Toolkit many codes based on or inspired by [PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg) Toolkit.Thanks to their wonderful and elegant work!**
 
 author: BairdXiong,Graduated from [WuhanUniversity of Techonolgy](http://www.whut.edu.cn/) 2023 . Studying for a master's degree in electronic information at [SIAT](https://www.siat.ac.cn/)(Shenzhen Institute of Advanced Technology，Chinese Academy of Sciences) Now.
 
