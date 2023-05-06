@@ -82,7 +82,7 @@ class Builder(object):
         for com in self.comp_list:
             if class_type in com.components_dict:
                 return com[class_type]
-        
+        # print(self.comp_list)
         raise RuntimeError("The specified component ({}) was not found.".format(
             class_type))
 
@@ -108,7 +108,7 @@ class SegBuilder(Builder):
         if comp_list is None:
             comp_list = [
                 manager.MODELS, manager.BACKBONES, manager.DATASETS,
-                manager.TRANSFORMS, manager.LOSSES, manager.OPTIMIZERS
+                manager.TRANSFORMS, manager.LOSSES, manager.OPTIMIZERS,manager.LRSCHEDULER
             ]
         super().__init__(config, comp_list)
 
@@ -119,7 +119,7 @@ class SegBuilder(Builder):
             'No model specified in the configuration file.'
         # !Config文件里不需要有model
 
-        if self.config.train_dataset_cfg['type'] != 'Dataset' and self.config.mode=="RGBSeg":
+        if self.config.train_dataset_cfg['type'] != 'Dataset' :
             # check and synchronize the num_classes in model config and dataset class
             assert hasattr(self.train_dataset_class, 'NUM_CLASSES'), \
                 'If train_dataset class is not `Dataset`, it must have `NUM_CLASSES` attr.'
@@ -193,14 +193,15 @@ class SegBuilder(Builder):
     #     #     warmup_start_lr = lr_cfg.pop('warmup_start_lr')
     #     #     end_lr = lr_cfg['learning_rate']
 
-        lr_type = lr_cfg.pop('type')
+        lr_type = lr_cfg['type']
 
         if lr_type == 'PolynomialLR':
             # Note: If you want to use this scheduler, you need to confirm your torch version >=1.13
+            # TODO: When torch version < 1.13 and want to use PolynomiaLR
             iters = self.config.iters #self.config.iters - warmup_iters if use_warmup else 
             iters = max(iters, 1)
             lr_cfg.setdefault('decay_steps', iters)
-        if lr_type == 'OneCycleLR':
+        elif lr_type == 'OneCycleLR':
             sampler = torch.utils.data.SequentialSampler(self.train_dataset)
             iters_per_epoch=len(sampler)
             epochs=self.config.iters//(iters_per_epoch)
@@ -212,8 +213,26 @@ class SegBuilder(Builder):
             lr_cfg.setdefault('pct_start', 0.1)
             lr_cfg.setdefault('anneal_strategy', 'cos')
             # lr_cfg.setdefault('final_div_factor', 1.e-4)
+        elif lr_type == 'CosineAnnealingWithWarmUp':
+            
+            sampler = torch.utils.data.SequentialSampler(self.train_dataset)
+            iters_per_epoch=len(sampler)
+            epochs=self.config.iters//(iters_per_epoch)
+            
+            lr_cfg.setdefault('cycle_steps', self.config.iters)
+            lr_cfg.setdefault('max_lr', [i['lr'] for i in self.optimizer.param_groups]) 
+            lr_cfg.setdefault('min_lr', [i['lr']/1000 for i in self.optimizer.param_groups]) 
+            lr_cfg.setdefault('max_lr_steps',epochs * iters_per_epoch/2 )
+            lr_cfg.setdefault('warmup_steps',epochs * iters_per_epoch/4 )
+            
+            # max_lr_steps=max_lr_epochs * len(train_loader),
+
+            # warmup_steps=warm_up_epochs * len(train_loader)
         try:
-            lr_sche = getattr(torch.optim.lr_scheduler, lr_type)(self.optimizer,**lr_cfg)
+            lr_cfg["optimizer"]=self.optimizer
+            lr_sche=self.build_component(lr_cfg)
+            
+            #lr_sche = getattr(torch.optim.lr_scheduler, lr_type)(self.optimizer,**lr_cfg)
         except Exception as e:
             raise RuntimeError(
                 "Create {} has failed. Please check lr_scheduler in config. "

@@ -40,12 +40,14 @@ class OpticDiscSeg(Dataset):
     def __init__(self,
                  dataset_root=None,
                  #IMG_CHANNELS=3,
+                 num_classes=NUM_CLASSES,
                  transforms=None,
                  mode='train',
                  edge=False,
                  binary_label_max_index=1):
         self.dataset_root = dataset_root
-        self.transforms = Compose(transforms)
+        
+        self.transforms = Compose(transforms, img_channels=self.IMG_CHANNELS)
         mode = mode.lower()
         self.mode = mode
         self.file_list = list()
@@ -112,14 +114,10 @@ class OpticDiscSeg(Dataset):
             data = self.transforms(data)
             data['label'] = data['label'][np.newaxis, :, :]
             
-            if self.binary_label_max_index!=1 and self.num_classes==2:
-                data['label'] = data['label']/self.binary_label_max_index
 
         else:
             data['gt_fields'].append('label')
             data = self.transforms(data)
             
-            if self.binary_label_max_index!=1 and self.num_classes==2:
-                data['label'] = data['label']/self.binary_label_max_index
-            
+        print(np.unique(data['label']))
         return data

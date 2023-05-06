@@ -17,6 +17,12 @@ import torch.nn.functional as F
 
 from segall.cvlibs import manager
 from segall.models.losses import flatten
+import warnings
+from typing import Callable, List, Optional, Sequence, Union
+
+import numpy as np
+
+
 
 @manager.LOSSES.add_component
 class DiceLoss3D(nn.Module):
@@ -37,7 +43,7 @@ class DiceLoss3D(nn.Module):
         if sigmoid_norm:
             self.norm = nn.Sigmoid()
         else:
-            self.norm = nn.Softmax(axis=1)
+            self.norm = nn.Softmax(dim=1)
 
     def compute_per_channel_dice(self, input, target, epsilon=1e-6,
                                  weight=None):

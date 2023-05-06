@@ -116,7 +116,8 @@ def main(args):
         image_list=image_list,
         image_dir=image_dir,
         save_dir=args.save_dir,
-       device=device)
+       device=device,
+       custom_color=[255,255,255])
 
 
 if __name__ == '__main__':

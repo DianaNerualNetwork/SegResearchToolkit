@@ -82,12 +82,13 @@ class BaseOptimizer(object):
 
 @manager.OPTIMIZERS.add_component
 class SGD(BaseOptimizer):
-    def __init__(self,lr, momentum=0,weight_decay=None, custom_cfg=None):
+    def __init__(self,lr, momentum=0,weight_decay=None,nesterov=False, custom_cfg=None):
         super().__init__(weight_decay, custom_cfg=None)
         self.momentum=momentum
         self.lr=lr
+        self.nesterov=nesterov
     def __call__(self,model):
         param=self._collect_params(model)
-        return torch.optim.SGD(params=param,lr=self.lr,momentum=self.momentum,**self.args)
+        return torch.optim.SGD(params=param,lr=self.lr,momentum=self.momentum,nesterov=self.nesterov,**self.args)
 
 

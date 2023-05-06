@@ -1,4 +1,4 @@
-from .train import train,train_3d
-from .val import evaluate,evaluate_3d
+from .train import train
+from .val import evaluate
 from .infer import *
 from .predict import *

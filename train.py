@@ -1,5 +1,4 @@
 
-
 import argparse
 import os 
 import random 
@@ -12,7 +11,7 @@ from pytorch_lightning import seed_everything
 
 from segall.cvlibs import Config,SegBuilder
 from segall.utils import get_sys_env,logger,utils
-from segall.core import train,train_3d
+from segall.core import train
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model training')
@@ -58,6 +57,11 @@ def parse_args():
         dest='use_vdl',
         help='Whether to record the data to VisualDL during training.',
         action='store_true')
+    parser.add_argument(
+        '--use_ema',
+        help='Whether to ema the model in training.',
+        action='store_true')
+
     parser.add_argument(
         '--seed',
         dest='seed',
@@ -108,8 +112,7 @@ def main(args):
         batch_size=args.batch_size,
         opts=args.opts)
     builder = SegBuilder(cfg)
-    print(cfg)
-    assert cfg.mode in ["RGBSeg","Medical3DSeg"],"mode should in [RGBSeg,Medical3DSeg]"
+    
     # utils.show_env_info()
     utils.show_cfg_info(cfg)
     utils.set_seed(args.seed)
@@ -122,8 +125,9 @@ def main(args):
     optim=builder.optimizer
     loss=builder.loss # loss is a dict  for example ： {'coef': [1], 'types': [CrossEntropyLoss()]} not a impl
     lr_she=builder.lr_scheduler
-    if cfg.mode=="RGBSeg":
-        train(
+    
+    
+    train(
         model,
         train_dataset,
         val_dataset=val_dataset,
@@ -137,7 +141,7 @@ def main(args):
         log_iters=args.log_iters,
         num_workers=args.num_workers,
         use_vdl=args.use_vdl,
-        #use_ema=args.use_ema,# TODO
+        use_ema=args.use_ema,
         losses=loss,
         keep_checkpoint_max=args.keep_checkpoint_max, ## TODO
         #test_config=cfg.test_config,# TODO
@@ -146,32 +150,6 @@ def main(args):
         #profiler_options=args.profiler_options, # TODO
         #to_static_training=cfg.to_static_training # TODO
         device=device
-        )
-    elif cfg.mode=="Medical3DSeg":
-        train_3d(
-            model,
-          train_dataset,
-          val_dataset,
-          optimizer=optim,
-          lr_she=lr_she,
-          save_dir=args.save_dir,
-        iters=cfg.iters,
-        batch_size=cfg.batch_size,
-        resume_model=args.resume_model,
-        save_interval=args.save_interval,
-        log_iters=args.log_iters,
-        num_workers=args.num_workers,
-        use_vdl=args.use_vdl,
-        #use_ema=args.use_ema,# TODO
-        losses=loss,
-        keep_checkpoint_max=args.keep_checkpoint_max, ## TODO
-        device=device,
-        #   profiler_options=None, # TODO
-        #   to_static_training=False, # TODO
-          sw_num=None,
-          is_save_data=True,
-          has_dataset_json=True
-
         )
     
     

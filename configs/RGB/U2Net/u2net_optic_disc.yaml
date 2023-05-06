@@ -14,7 +14,7 @@ optimizer:
 
 lr_scheduler:
   type: OneCycleLR
-
+  
 
 model:
   type: U2Net

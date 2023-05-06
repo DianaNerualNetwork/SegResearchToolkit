@@ -4,3 +4,4 @@ from . import core
 from . import transforms
 from . import datasets
 from . import optimizers
+from . import lrschedulers

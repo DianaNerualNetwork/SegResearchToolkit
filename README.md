@@ -1,4 +1,4 @@
-## <div align="center"><b><a href="README.md">English</a> | <a href="README_CN.md">简体中文</a></b></div>
+## <div align="center">English | [简体中文](README_CN.md)</b></div>
 
 <div align="center">
 
@@ -25,14 +25,14 @@
 ## 📢 New Features/Updates
 
 
-  - ✅[2023-03-29] : fire: SegAll v0.1 is released! 
+  - ✅[2023-03-29] : fire: SegResearchToolkit v0.1 is released! 
   - ✅[2023-04-03] : fixed some transforms bug,and add U2Net, data prepare for optic_disc(MICCAI2021)。
  - ✅[2023-04-05] : Open New branch:Medical3D Segmentation,and get scripts to prepare lung_coronavirus dataset to download from the Internet.
 
 
 ## ✨  Introduction
 
-SegAll is an end-to-end high-efficent research development toolkit for image segmentation based on Pytorch, which  helps both developers and researchers in the whole process of designing segmentation models, training models, optimizing performance and inference speed, and deploying models. A lot of well-trained models and various real-world applications in both industry and academia help users conveniently build hands-on experiences in image segmentation.
+SegResearchToolkit is an end-to-end high-efficent research development toolkit for image segmentation based on Pytorch, which  helps both developers and researchers in the whole process of designing segmentation models, training models, optimizing performance and inference speed, and deploying models. A lot of well-trained models and various real-world applications in both industry and academia help users conveniently build hands-on experiences in image segmentation.
 
 **Note: This Toolkit many codes based on or inspired by [PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg) Toolkit.Thanks to their wonderful and elegant work!**
 
@@ -46,7 +46,7 @@ SegAll is an end-to-end high-efficent research development toolkit for image seg
 
 
 
-## ✨  Overview to SegAll
+## ✨  Overview to SegResearchToolkit
 
 <table align="center">
   <tbody>
@@ -182,6 +182,10 @@ This part shows you the whole picture of our repository, which is easy to expand
 ```bash
 ├── Benckmark_data_prepare  # All benckmark data prepare(SUNRGB-D,CitySpace,BrasTs..) stays here.
 ├── configs         # All configuration stays here.
+├── contrib         # All configuration stays here.
+│   ├── RGBDSeg        # the core training, val and test file.
+│   ├── Medical3DSeg  
+│   └── TextImageSeg       # all kinds of utility files
 ├── data            # Data stays here.
 ├── segall  
 │   ├── core        # the core training, val and test file.
@@ -219,9 +223,12 @@ You Can Choose the following benckmark:(Please Click them to read how to prepare
 This project is released under the [Apache 2.0 license](LICENSE.txt).<br>
 More details about **license** and **acknowledgement** are in [LICENSE](LICENSE/README.md).
 
+- [segmentation-anything](https://github.com/facebookresearch/segment-anything)
+- [PaddleSeg](https://github.com/PaddlePaddle/PaddleSeg)
+
 ## 🌏 Citations
 
-If SegAll helps your research or work, please cite SegAll.<br>
+If SegResearchToolkit helps your research or work, please cite SegAll.<br>
 
 
 author: BairdXiong,Graduated from [WuhanUniversity of Techonolgy](http://www.whut.edu.cn/) 2023 . Studying for a master's degree in electronic information at [SIAT](https://www.siat.ac.cn/)(Shenzhen Institute of Advanced Technology，Chinese Academy of Sciences) Now.
@@ -231,7 +238,7 @@ The following is a BibTeX reference. The BibTeX entry requires the `url` LaTeX p
 ```bash
 @misc{Segall,
   author =       {BingXiong},
-  title =        {{SegAll}: A High-Efficient Research Development Toolkit for Image Segmentation Based on Pytorch.},
+  title =        {{SegResearchToolkit}: A High-Efficient Research Development Toolkit for Image Segmentation Based on Pytorch.},
   howpublished = {\url{https://github.com/DianaNerualNetwork/SegAll}},
   year =         {2023}
 }

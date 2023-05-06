@@ -118,7 +118,7 @@ def predict(model,
 
             # save added image
             added_image = utils.visualize.visualize(
-                im_path, pred, color_map, weight=0.6)
+                im_path, pred, color_map, weight=0.8)
             added_image_path = os.path.join(added_saved_dir, im_file)
             mkdir(added_image_path)
             cv2.imwrite(added_image_path, added_image)

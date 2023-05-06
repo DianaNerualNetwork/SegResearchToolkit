@@ -15,13 +15,13 @@ train_dataset:
       min_scale_factor: 0.5
       max_scale_factor: 2.0
       scale_step_size: 0.25
-    - type: RandomPaddingCrop
-      crop_size: [1024, 512]
-    # - type: RandomHorizontalFlip
-    # - type: RandomDistort
-    #   brightness_range: 0.4
-    #   contrast_range: 0.4
-    #   saturation_range: 0.4
+    # - type: RandomPaddingCrop
+    #   crop_size: [1024, 512]
+    - type: RandomHorizontalFlip
+    - type: RandomDistort
+      brightness_range: 0.4
+      contrast_range: 0.4
+      saturation_range: 0.4
     - type: Resize
       target_size: [512, 512]
     - type: Normalize

@@ -39,14 +39,14 @@ class Compose:
         ValueError: when the length of 'transforms' is less than 1.
     """
 
-    def __init__(self, transforms, to_rgb=True, img_channels=3):
+    def __init__(self, transforms, to_rgb=True, img_channels=3,label_threshold=False):
         if not isinstance(transforms, list):
             raise TypeError('The transforms must be a list!')
         self.transforms = transforms 
         self.to_rgb = to_rgb
         self.img_channels = img_channels
         self.read_flag = cv2.IMREAD_GRAYSCALE if img_channels == 1 else cv2.IMREAD_COLOR
-
+        self.label_threshold=label_threshold
     def __call__(self, data):
         """
         Args:
@@ -75,8 +75,16 @@ class Compose:
             data['img'] = cv2.cvtColor(data['img'], cv2.COLOR_BGR2RGB)
 
         if 'label' in data.keys() and isinstance(data['label'], str):
-            data['label'] = np.asarray(Image.open(data['label']))
+            if self.label_threshold:
+                data['label'] = np.asarray(Image.open(data['label']).convert("L")).copy()
+                while len(np.unique(data['label']))>=2:
+                    if np.unique(data['label'])[-1]!=1:
+                        data['label'][data['label']==np.unique(data['label'])[-1]]=1
+                    if np.unique(data['label'])[-1]==1 and len(np.unique(data['label']))==2:
+                        break
 
+            else:
+                data['label'] = np.asarray(Image.open(data['label']))
         # the `trans_info` will save the process of image shape, and will be used in evaluation and prediction.
         if 'trans_info' not in data.keys():
             data['trans_info'] = []

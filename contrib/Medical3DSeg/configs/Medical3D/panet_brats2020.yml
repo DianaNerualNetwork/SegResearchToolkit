@@ -1,0 +1,30 @@
+_base_: "../_base_/BraTs2020.yml"
+
+
+optimizer:
+  type: sgd
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 4.0e-5
+  nesterov: True
+
+lr_scheduler:
+  type: CosineAnnealingWithWarmUp
+#   max_lr_steps:
+  # warmup_steps:
+
+model:
+  type: PriorAttentionNet
+  num_classes: 4
+  input_channels: 4
+  use_deconv: False
+  channels: [32,64,128,256,320]
+  strides: [1, 2, 2, 2, 2]
+  leaky: True
+  norm: INSTANCE
+ 
+
+loss:
+  types:
+    - type: DiceCELoss
+  coef: [1]

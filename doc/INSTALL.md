@@ -91,18 +91,19 @@ There are two options to install BASICSR, according to your needs.
 1. Clone the repo
 
     ```bash
-    git clone https://github.com/DianaNerualNetwork/SegAll
+    git clone https://github.com/DianaNerualNetwork/SegResearchToolkit
     ```
 
 1. Install dependent packages
 
     ```bash
-    cd SegAll
+    cd SegResearchToolkit
     pip install -r requirements.txt
+    python -m pip install -e segment_anything
     ```
 
 1. Install SegAll<br>
-    Please run the following commands in the **SegAll root path** to install SegAll:<br>
+    Please run the following commands in the **SegResearchToolkit root path** to install SegAll:<br>
 
     - If you do not need C++ extensions (more details are [here](#basicsr_ext-and-basicsr_jit-environment-variables)):
 

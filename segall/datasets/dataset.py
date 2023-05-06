@@ -74,10 +74,15 @@ class Dataset(torch.utils.data.Dataset):
                  edge=False,
                  binary_label_max_index=1):
         self.dataset_root = dataset_root
-        self.transforms = Compose(transforms, img_channels=img_channels)
+
+        self.num_classes = num_classes
+        if self.num_classes==2:
+            self.transforms = Compose(transforms, img_channels=img_channels,label_threshold=True)
+        else:
+            self.transforms = Compose(transforms, img_channels=img_channels,label_threshold=False)
         self.file_list = list()
         self.mode = mode.lower()
-        self.num_classes = num_classes
+        
         self.img_channels = img_channels
         self.ignore_index = ignore_index
         self.edge = edge
@@ -157,21 +162,21 @@ class Dataset(torch.utils.data.Dataset):
             
             data = self.transforms(data)
             data['label'] = data['label'][np.newaxis, :, :]
-            if self.binary_label_max_index!=1 and self.num_classes==2:
-                data['label'] = data['label']/self.binary_label_max_index
+            # if self.num_classes==2:
+            #     data['label'] = data['label']/255
                 
             
 
         else:
             data['gt_fields'].append('label')
             data = self.transforms(data)
-            if self.binary_label_max_index!=1 and self.num_classes==2:
-                data['label'] = data['label']/self.binary_label_max_index
             if self.edge:
                 edge_mask = F.mask_to_binary_edge(
                     data['label'], radius=2, num_classes=self.num_classes)
                 data['edge'] = edge_mask
+        
         return data
 
     def __len__(self):
         return len(self.file_list)
+

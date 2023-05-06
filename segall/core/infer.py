@@ -13,11 +13,13 @@ def reverse_transform(pred, trans_info, mode='nearest',device=torch.device('cpu'
     dtype = pred.dtype
     
     for item in trans_info[::-1]:
+        
         if isinstance(item[0], list):
             trans_mode = item[0][0]
         else:
             trans_mode = item[0]
-        if trans_mode == 'resize':
+        
+        if  'resize' in trans_mode:
             h, w = item[1][0], item[1][1]
             if device == torch.device('cpu') and dtype in intTypeList:
                 pred = torch.as_tensor(pred, dtype=torch.float32)
@@ -118,7 +120,8 @@ def inference(model,
               trans_info=None,
               is_slide=False,
               stride=None,
-              crop_size=None):
+              crop_size=None,
+              class_label=None):
     """
     Inference for image.
     Args:
@@ -139,11 +142,13 @@ def inference(model,
             raise TypeError(
                 "The type of logits must be one of collections.abc.Sequence, e.g. list, tuple. But received {}"
                 .format(type(logits)))
-        logit = logits[0]
+        
+        logit=logits[0]
     else:
         logit = slide_inference(model, im, crop_size=crop_size, stride=stride)
     
     if trans_info is not None:
+        
         logit = reverse_transform(logit, trans_info, mode='bilinear')
         pred = torch.argmax(logit, dim=1, keepdim=True)
         return pred, logit

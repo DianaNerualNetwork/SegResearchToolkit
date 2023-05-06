@@ -1,0 +1,21 @@
+_base_: "../../_base_/mousebrain.yml"
+
+
+model:
+  type: U2Net
+  num_classes: 2
+  pretrained: Null
+
+optimizer:
+  type: SGD
+  lr: 1.e-3
+  momentum: 0.9
+  weight_decay: 4.0e-5
+
+lr_scheduler:
+  type: OneCycleLR
+
+loss:
+  types:
+    - type: CrossEntropyLoss
+  coef: [1, 1, 1, 1, 1, 1, 1]
