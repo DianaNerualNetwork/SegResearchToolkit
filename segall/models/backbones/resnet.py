@@ -114,7 +114,8 @@ class BottleneckBlock(nn.Module):
         self.add = layers.Add()
         self.relu = layers.Activation(act="relu")
     def forward(self,inputs):
-        y=self.conv0(input)
+        
+        y=self.conv0(inputs)
         conv1=self.conv1(y)
         conv2=self.conv2(conv1)
 
@@ -178,42 +179,18 @@ class BasicBlock(nn.Module):
         y = self.relu(y)
 
         return y
-    
+
 class ResNet_vd(nn.Module):
-    """
-    
-    The original article refers to Jingdong
-    Tong He, et, al. "Bag of Tricks for Image Classification with Convolutional Neural Networks"
-    (https://arxiv.org/pdf/1812.01187.pdf).
-
-    Args:
-        layers (int, optional): The layers of ResNet_vd. The supported layers are (18, 34, 50, 101, 152, 200). Default: 50.
-        output_stride (int, optional): The stride of output features compared to input images. It is 8 or 16. Default: 8.
-        multi_grid (tuple|list, optional): The grid of stage4. Defult: (1, 1, 1).
-        in_channels (int, optional): The channels of input image. Default: 3.
-        pretrained (str, optional): The path of pretrained model.
-
-    """
-
-    def __init__(self,
-                 layers=50,
-                 output_stride=8,
-                 multi_grid=(1, 1, 1),
-                 in_channels=3,
-                 pretrained=None,
-                
-                 ):
+    def __init__(self, layers=50, output_stride=8, multi_grid=(1, 1, 1), in_channels=3, pretrained=None):
         super(ResNet_vd, self).__init__()
 
-        
-        self.conv1_logit = None  # for gscnn shape stream
+        self.conv1_logit = None
         self.layers = layers
         supported_layers = [18, 34, 50, 101]
-        assert layers in supported_layers, \
-            "supported layers are {} but input layer is {}".format(
-                supported_layers, layers)
+        assert layers in supported_layers, "Supported layers are {} but input layer is {}".format(
+            supported_layers, layers)
 
-        self.multi_grid=multi_grid
+        self.multi_grid = multi_grid
 
         if layers == 18:
             depth = [2, 2, 2, 2]
@@ -225,13 +202,10 @@ class ResNet_vd(nn.Module):
             depth = [3, 8, 36, 3]
         elif layers == 200:
             depth = [3, 12, 48, 3]
-        self.num_channels = [64, 256, 512,
-                        1024] if layers >= 50 else [64, 64, 128, 256]
+        self.num_channels = [64, 256, 512, 1024] if layers >= 50 else [64, 64, 128, 256]
         self.num_filters = [64, 128, 256, 512]
 
-        # for channels of four returned stages
-        self.feat_channels = [c * 4 for c in self.num_filters
-                              ] if layers >= 50 else self.num_filters
+        self.feat_channels = [c * 4 for c in self.num_filters] if layers >= 50 else self.num_filters
 
         self.dilation_dict = None
         if output_stride == 8:
@@ -239,106 +213,66 @@ class ResNet_vd(nn.Module):
         elif output_stride == 16:
             self.dilation_dict = {3: 2}
 
-        ################ ! Stem block#############
         self.conv1_1 = ConvBN(
             in_channels=in_channels,
             out_channels=32,
             kernel_size=3,
             stride=2,
             act='relu',
-            )
+        )
         self.conv1_2 = ConvBN(
             in_channels=32,
             out_channels=32,
             kernel_size=3,
             stride=1,
             act='relu',
-            )
+        )
         self.conv1_3 = ConvBN(
             in_channels=32,
             out_channels=64,
             kernel_size=3,
             stride=1,
             act='relu',
-            )
+        )
         self.pool2d_max = nn.MaxPool2d(
             kernel_size=3, stride=2, padding=1)
-        
-        ################ ! Stem block#############
-        
-        if self.layers>=50:
-            self.layer1=self._make_layer(
-                block=BottleneckBlock,stage=1,in_planes=self.num_channels[0],
-                out_planes=self.num_filters[0],block_num=depth[0],
-                
-            )
-            self.layer2=self._make_layer(
-                block=BottleneckBlock,stage=1,in_planes=self.num_channels[1],
-                out_planes=self.num_filters[1],block_num=depth[1],
-                
-            )
-            self.layer3=self._make_layer(
-                block=BottleneckBlock,stage=2,in_planes=self.num_channels[2],
-                out_planes=self.num_filters[2],block_num=depth[2],
-                
-            )
-            self.layer4=self._make_layer(
-                block=BottleneckBlock,stage=4,in_planes=self.num_channels[3],
-                out_planes=self.num_filters[3],block_num=depth[3],
-                
-            )
-        else:
-            self.layer1=self._make_layer(
-                block=BasicBlock,stage=1,in_planes=self.num_channels[0],
-                out_planes=self.num_filters[0],block_num=depth[0],
-                
-            )
-            self.layer2=self._make_layer(
-                block=BasicBlock,stage=1,in_planes=self.num_channels[1],
-                out_planes=self.num_filters[1],block_num=depth[1],
-                
-            )
-            self.layer3=self._make_layer(
-                block=BasicBlock,stage=2,in_planes=self.num_channels[2],
-                out_planes=self.num_filters[2],block_num=depth[2],
-                
-            )
-            self.layer4=self._make_layer(
-                block=BasicBlock,stage=4,in_planes=self.num_channels[3],
-                out_planes=self.num_filters[3],block_num=depth[3],
-                
-            )
-            
-        # ? why write in this way doenst work?
-        # for stage in range(len(depth)):
-        #     if self.layers>=50:
-        #         self.stage_list.append(self._make_layer(
-        #         block=BottleneckBlock,stage=stage,in_planes=self.num_channels[stage],
-        #         out_planes=self.num_filters[stage],block_num=depth[stage],
-                
-        #     ))
-        #     else:
-        #         self.stage_list.append(self._make_layer(
-        #         block=BasicBlock,stage=stage,in_planes=self.num_channels[stage],
-        #         out_planes=self.num_filters[stage],block_num=depth[stage],
-                
-        #         ))
 
-        if pretrained=="torchpretrained":
-            if self.layers==18:
-                self.pretrained = model_urls['resnet18']
-            elif self.layers==34:
-                self.pretrained = model_urls['resnet34']
-            elif self.layers==50:
-                self.pretrained = model_urls['resnet50']
-            elif self.layers==101:
-                self.pretrained = model_urls['resnet101']
-            elif self.layers==152:
-                self.pretrained = model_urls['resnet152']
+        if self.layers >= 50:
+            self.layer1 = self._make_layer(
+                block=BottleneckBlock, stage=1, in_channels=self.num_channels[0],
+                out_channels=self.num_filters[0], block_num=depth[0],mode='bottle'
+            )
+            self.layer2 = self._make_layer(
+                block=BottleneckBlock, stage=1, in_channels=self.num_channels[1],
+                out_channels=self.num_filters[1], block_num=depth[1],mode='bottle'
+            )
+            self.layer3 = self._make_layer(
+                block=BottleneckBlock, stage=2, in_channels=self.num_channels[2],
+                out_channels=self.num_filters[2], block_num=depth[2],mode='bottle'
+            )
+            self.layer4 = self._make_layer(
+                block=BottleneckBlock, stage=4, in_channels=self.num_channels[3],
+                out_channels=self.num_filters[3], block_num=depth[3],mode='bottle'
+            )
         else:
-            self.pretrained=pretrained
-        
-        
+            self.layer1 = self._make_layer(
+                block=BasicBlock, stage=1, in_channels=self.num_channels[0],
+                out_channels=self.num_filters[0], block_num=depth[0],
+            )
+            self.layer2 = self._make_layer(
+                block=BasicBlock, stage=1, in_channels=self.num_channels[1],
+                out_channels=self.num_filters[1], block_num=depth[1],
+            )
+            self.layer3 = self._make_layer(
+                block=BasicBlock, stage=2, in_channels=self.num_channels[2],
+                out_channels=self.num_filters[2], block_num=depth[2],
+            )
+            self.layer4 = self._make_layer(
+                block=BasicBlock, stage=4, in_channels=self.num_channels[3],
+                out_channels=self.num_filters[3], block_num=depth[3],
+            )
+
+        self.pretrained = pretrained
         self.init_weight()
 
     def forward(self, inputs):
@@ -348,41 +282,45 @@ class ResNet_vd(nn.Module):
         self.conv1_logit = y.clone()
         y = self.pool2d_max(y)
 
-        # A feature list saves the output feature map of each stage.
         feat_list = []
-        
-        feat1=self.layer1(y)
+        feat1 = self.layer1(y)
         feat_list.append(feat1)
-        feat2=self.layer2(feat1)
+        feat2 = self.layer2(feat1)
         feat_list.append(feat2)
-        feat3=self.layer3(feat2)
+        feat3 = self.layer3(feat2)
         feat_list.append(feat3)
-        feat4=self.layer4(feat3)
+        feat4 = self.layer4(feat3)
         feat_list.append(feat4)
         return feat_list
-    
-    def _make_layer(self,block,stage,in_planes,out_planes,block_num):
-        layers=[]
-        shortcut=False
+
+    def _make_layer(self, block, stage, in_channels, out_channels, block_num,mode='basic'):
+        layers = []
+        shortcut = False
         for i in range(block_num):
-            dilation_rate=self.dilation_dict[i] if (self.dilation_dict) \
-                and ( i in self.dilation_dict) else 1
+            dilation_rate = self.dilation_dict[i] if (self.dilation_dict) and (i in self.dilation_dict) else 1
             if stage == 3:
-                # ! 
                 dilation_rate = dilation_rate * self.multi_grid[i]
-        
-            layers.append(
-                   nn.Sequential( OrderedDict([("stage_%d_%d"%(stage,i),
-                    block(
-                    in_channels=in_planes if i==0 else out_planes,
-                    out_channels=out_planes,
-                    stride=2 if i==0 and stage!=0 and dilation_rate==1 else 1,
+            if mode=="basic":
+                layers.append(
+                block(
+                    in_channels=in_channels if i == 0 else out_channels,
+                    out_channels=out_channels,
+                    stride=2 if i == 0 and stage != 0 and dilation_rate == 1 else 1,
                     shortcut=shortcut,
-                    if_first=(stage==i==0),
-                    dilation=dilation_rate)
-                    )]))
+                    if_first=(block_num == i == 0),
+                    dilation=dilation_rate,)
                 )
-            shortcut=True
+            elif mode=="bottle":
+                layers.append(
+                block(
+                    in_channels=in_channels if i == 0 else out_channels*4,
+                    out_channels=out_channels,
+                    stride=2 if i == 0 and stage != 0 and dilation_rate == 1 else 1,
+                    shortcut=shortcut,
+                    if_first=(block_num == i == 0),
+                    dilation=dilation_rate,)
+                )
+            shortcut = True
         return nn.Sequential(*layers)
 
     def init_weight(self):
@@ -392,7 +330,23 @@ class ResNet_vd(nn.Module):
             elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
-        utils.load_pretrained_model(self, self.pretrained)
+        if self.pretrained:
+            if self.layers == 18:
+                state_dict = torch.hub.load_state_dict_from_url(model_urls['resnet18'])
+            elif self.layers == 34:
+                state_dict = torch.hub.load_state_dict_from_url(model_urls['resnet34'])
+            elif self.layers == 50:
+                state_dict = torch.hub.load_state_dict_from_url(model_urls['resnet50'])
+            elif self.layers == 101:
+                state_dict = torch.hub.load_state_dict_from_url(model_urls['resnet101'])
+            elif self.layers == 152:
+                state_dict = torch.hub.load_state_dict_from_url(model_urls['resnet152'])
+            self.load_state_dict(state_dict, strict=False)
+
+
+
+
+
 
 @manager.BACKBONES.add_component
 def ResNet18_vd(**args):
@@ -416,5 +370,7 @@ def ResNet101_vd(**args):
     model = ResNet_vd(layers=101, **args)
     return model
 
-if __name__ =="__main__":
-    pass
+if __name__ == "__main__":
+    model = ResNet101_vd()
+    data = torch.randn([1, 3, 256, 256])
+    print(model(data)[0].shape)
