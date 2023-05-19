@@ -84,7 +84,7 @@ class Compose:
                         break
 
             else:
-                data['label'] = np.asarray(Image.open(data['label']))
+                data['label'] = np.asarray(Image.open(data['label']).convert("L")).copy()
         # the `trans_info` will save the process of image shape, and will be used in evaluation and prediction.
         if 'trans_info' not in data.keys():
             data['trans_info'] = []
