@@ -108,14 +108,14 @@ def main(args):
     utils.show_cfg_info(cfg)
     # utils.set_device(args.device)
 
-
-    model = builder.model
+    device=torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    model = builder.model.to(device)
     if args.model_path:
         utils.load_entire_model(model, args.model_path)
         logger.info('Loaded trained weights successfully.')
     val_dataset = builder.val_dataset
 
-    evaluate(model, val_dataset, num_workers=args.num_workers, **test_config)
+    evaluate(model, val_dataset, num_workers=args.num_workers, device=device,**test_config)
 
 
 if __name__ == '__main__':
