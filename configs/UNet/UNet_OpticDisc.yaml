@@ -15,3 +15,27 @@ val_dataset:
   transforms:
     - type: Normalize
   mode: val
+
+batch_size: 4
+iters: 40000
+
+model:
+  type: UNet
+  use_deconv: False
+  pretrained: Null
+
+
+optimizer:
+  type: sgd
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 4.0e-5
+
+
+lr_scheduler:
+  type: OneCycleLR
+
+loss:
+  types:
+    - type: CrossEntropyLoss
+  coef: [1]

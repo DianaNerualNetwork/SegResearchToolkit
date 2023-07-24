@@ -41,122 +41,10 @@ SegResearchToolkit是一个基于Pytorch的端到端高效图像分割研究开�
 📕 现阶段支持的分割领域如下:
 
 - ✅RGB Segmentation
-- ✅RGBD Segmentation
-- ✅Medical3D Segmentation
 
 
 
 
-
-## ✨  Overview to SegResearchToolkit
-
-<table align="center">
-  <tbody>
-    <tr align="center" valign="bottom">
-      <td>
-        <b>Models</b>
-      </td>
-      <td colspan="2">
-        <b>Components</b>
-      </td>
-    </tr>
-    <tr valign="top">
-      <td>
-        <ul>
-        <details><summary><b>RGB Segmentation</b></summary>
-          <ul>
-          <li>
-              <a  href="./doc/models/DeepLabV3p/README.md">DeepLabV3</a>
-            </li>
-            <li>
-              <a  href="./doc/models/U2Net/README.md">U2Net</a>
-            </li>
-          </ul>
-        </details>
-        <details><summary><b>RGBD Segmentation</b></summary>
-          <ul>
-            <li>ESANet</li>
-          </ul>
-        </details>
-        <details><summary><b>Medical3D Segmentation</b></summary>
-          <ul>
-            <li>
-            <a  href="./doc/models/U2Net/README.md">VNet</a>
-            </li>
-            <li>
-            <a  href="./doc/models/PANet_PriorAttention/README.md">PANet</a>
-            </li>
-          </ul>
-      </td>
-      <td>
-        <details><summary><b>Backbones</b></summary>
-          <ul>
-            <li><a href="./doc/models/backbone/ResNet/README.md">ResNet</a></li>
-          </ul>
-        </details>
-        <details><summary><b>Losses</b></summary>
-          <ul>
-            <li><a href="./segall/models/losses/cross_entropy_loss.py">Cross Entropy Loss</a></li>
-          </ul>
-        </details>
-        <details><summary><b>Metrics</b></summary>
-          <ul>
-            <li>mIoU</li>
-            <li>Accuracy</li>
-            <li>Kappa</li>
-            <li>Dice</li>
-            <li>AUC_ROC</li>
-          </ul>  
-        </details>
-      </td>
-      <td>
-        <details><summary><b>Datasets</b></summary>
-          <details><summary><b>RGB Datasets</b></summary>
-          <ul>
-            <li><a href="./paddleseg/datasets/optic_disc_seg.py">OPTIC DISC SEG</a></li>
-          </ul>
-          </details>
-          <details><summary><b>RGBD Datasets</b></summary>
-          <ul>
-            <li><a href="./paddleseg/datasets/ade.py">SUNRGBD</a></li>
-            <li><a href="./paddleseg/datasets/ade.py">NYUV2</a></li>  
-          </ul>
-          </details>
-        </details>
-        <details><summary><b>Data Augmentation</b></summary>
-          <details><summary><b>RGB Data Augmentation</b></summary>
-            <ul>
-            <li>Flipping</li>  
-            <li>Resize</li>  
-            <li>ResizeByLong</li>
-            <li>ResizeByShort</li>
-            <li>LimitLong</li>  
-            <li>ResizeRangeScaling</li>  
-            <li>ResizeStepScaling</li>
-            <li>Normalize</li>
-            <li>Padding</li>
-            <li>PaddingByAspectRatio</li>
-            <li>RandomPaddingCrop</li>  
-            <li>RandomCenterCrop</li>
-            <li>ScalePadding</li>
-            <li>RandomNoise</li>  
-            <li>RandomBlur</li>  
-            <li>RandomRotation</li>  
-            <li>RandomScaleAspect</li>  
-            <li>RandomDistort</li>  
-            <li>RandomAffine</li>  
-          </ul>
-        </details>
-        <details><summary><b>RGB Data Augmentation</b></summary>
-        </details>
-      </td>
-      <td>
-</td>
-    </tr>
-  </tbody>
-</table>
-
-<details open>
 <summary>支持的骨干网络并速读其论文请点击： </summary>
 
 - ✅ [ResNet](./doc/models/backbone/ResNet/README.md)
@@ -168,11 +56,6 @@ SegResearchToolkit是一个基于Pytorch的端到端高效图像分割研究开�
 
 - ✅ [DeepLabv3p](./doc/models/DeepLabV3p/README.md)
 - ✅ [U2Net](./doc/models/U2Net/README.md)
-</details>
-<details> <summary>Meidical3D Segmentation </summary>
-
-- ✅ [VNet](./doc/models/DeepLabV3p/README.md)
-- [x] [PANet](./doc/models/PANet_PriorAttention/README.md)
 </details>
 </details>
 
@@ -205,10 +88,7 @@ This part shows you the whole picture of our repository, which is easy to expand
 
 - ✅ [MICCAI2021 DISC SEG](Benckmark_data_prepare/RGB/MICCAI2021/README.md)
 - ✅ [Medical3D- Lung-S](Benckmark_data_prepare/Meidical3D/lung.md)
-- ⏳ RGBD- SUNRGB-D
-- ⏳ RGBD- NYUv2
 - ⏳ CitySpace
-
 
 </details>
 

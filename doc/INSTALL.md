@@ -98,36 +98,16 @@ There are two options to install BASICSR, according to your needs.
 
     ```bash
     cd SegResearchToolkit
-    pip install -r requirements.txt
-    python -m pip install -e segment_anything
+    conda create -n seg python=3.8
+    conda activate seg
+    # please note your cudann version
+    #CUDA 10.2
+    conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cudatoolkit=10.2 -c pytorch
+    # CUDA 11.3
+    conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cudatoolkit=11.3 -c pytorch -c conda-forge
+    # pip install others 
+    pip install opencv-python==4.6.0.66 pytorch_lightning==1.9.3 tensorboard==2.11.2 scikit-image scikit-learn
+    pip install PyYAML filelock matplotlib
+    
     ```
 
-1. Install SegAll<br>
-    Please run the following commands in the **SegResearchToolkit root path** to install SegAll:<br>
-
-    - If you do not need C++ extensions (more details are [here](#basicsr_ext-and-basicsr_jit-environment-variables)):
-
-        ```bash
-        python setup.py develop
-        ```
-
-    - If you want to use C++ extensions in **JIT mode** without compiling them during installatoin (more details are [here](#basicsr_ext-and-basicsr_jit-environment-variables)):
-
-        ```bash
-        python setup.py develop
-        ```
-
-    - If you want to **compile C++ extensions during installation**, please set the environment variable `SEGALL_EXT=True`:
-
-        ```bash
-        SEGALL_EXT=True python setup.py develop
-        ```
-
-    You may also want to specify the CUDA paths:
-
-    ```bash
-    CUDA_HOME=/usr/local/cuda \
-    CUDNN_INCLUDE_DIR=/usr/local/cuda \
-    CUDNN_LIB_DIR=/usr/local/cuda \
-    SEGALL_EXT=True python setup.py develop
-    ```
